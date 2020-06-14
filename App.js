@@ -9,6 +9,8 @@ import { fetchData, fetchTodayData } from "./components/api";
 // Components import
 import { Card_, CountryPicker, Today } from "./components";
 
+import Ionicons from "react-native-vector-icons/Ionicons";
+
 export default function App() {
   const [data, setData] = useState({}); //State for overall data
   const [todayData, setTodayData] = useState(); //State for current data
@@ -51,7 +53,26 @@ export default function App() {
         <CountryPicker handleCountryChange={handleCountryChange} />
       </View>
 
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === "Overall") {
+              iconName = focused ? "ios-globe" : "ios-globe";
+            } else if (route.name === "Today") {
+              iconName = focused ? "ios-today" : "ios-today";
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: "tomato",
+          inactiveTintColor: "gray",
+        }}
+      >
         <Tab.Screen name="Overall">
           {() => <Card_ data={data} header={header} />}
         </Tab.Screen>
